@@ -1,0 +1,12 @@
+LIBRARY	AMSI
+VERSION 1.0
+
+EXPORTS
+	AmsiCloseSession
+	AmsiInitialize
+	AmsiNotifyOperation
+	AmsiOpenSession
+	AmsiScanBuffer
+	AmsiScanString
+	AmsiUninitialize
+	DllMain		PRIVATE

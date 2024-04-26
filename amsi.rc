@@ -1,0 +1,33 @@
+/***********************************
+ * Copyright (c) 2024 Roger Brown.
+ * Licensed under the MIT License.
+ ****/
+
+#include <windows.h>
+
+1 VERSIONINFO
+	FILEVERSION DEPVERS_INT4
+	PRODUCTVERSION DEPVERS_INT4
+	FILEOS VOS__WINDOWS32
+	FILETYPE VFT_DLL
+BEGIN
+	BLOCK "StringFileInfo"
+	BEGIN
+		BLOCK "140904E4"
+		BEGIN
+			VALUE "CompanyName","Roger Brown\000\000"
+			VALUE "LegalCopyright","Copyright © Roger Brown 2024\000\000"
+			VALUE "ProductName","powershell-amsi\000\000"
+            VALUE "ProductVersion", DEPVERS_STR4
+			VALUE "Comments","https://github.com/rhubarb-geek-nz/powershell-amsi\000\000"
+			VALUE "FileDescription","inert amsi library\000\000"
+            VALUE "FileVersion", DEPVERS_STR4
+			VALUE "InternalName","amsi\000\000"
+			VALUE "OriginalFilename","AMSI.DLL\000\000"
+		END
+	END
+	BLOCK "VarFileInfo"
+	BEGIN	
+		VALUE "Translation", 0x1409, 1252
+	END
+END
