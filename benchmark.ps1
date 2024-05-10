@@ -20,7 +20,7 @@ try
  
 	Write-Progress @progressParams
 
-	Get-Command -Noun ('Base64String','Reflection')
+	Get-Command -Noun ('Array','Base64','Base64String','Reflection')
 
 	$bytes = new-object byte[] -ArgumentList @(,200554320)
 
@@ -55,7 +55,7 @@ try
 	$progressParams.CurrentOperation = 'Invoke-Reflection'
 	Write-Progress @progressParams
 
-	$bytes = Invoke-Reflection -Method FromBase64String -Type ([System.Convert]) -ArgumentDictionary @{ s = $base64 }
+	$bytes = Invoke-Reflection -Method FromBase64String -Type ([System.Convert]) -ArgumentList @(,$base64)
 	$bytes = $null
 
 	$T3 = Get-Date
@@ -72,8 +72,13 @@ try
 	$T4 = Get-Date
 
 	$progressParams.PercentComplete = 100
-	$progressParams.CurrentOperation = 'Completed'
+	$progressParams.CurrentOperation = 'ConvertFrom-Base64 | Join-Array'
 	Write-Progress @progressParams
+
+	$bytes = $base64 | ConvertFrom-Base64 | Join-Array -Type ([byte])
+	$bytes = $null
+
+	$T5 = Get-Date
 }
 finally
 {
@@ -96,6 +101,10 @@ finally
 	[pscustomobject]@{
 		TestCase = 'Type.GetMethod().Invoke()'
 		Duration = [int]($T4-$T3).TotalMilliseconds
+	},
+	[pscustomobject]@{
+		TestCase = 'ConvertFrom-Base64 | Join-Array'
+		Duration = [int]($T5-$T4).TotalMilliseconds
 	}
 ) | Format-Table
 
