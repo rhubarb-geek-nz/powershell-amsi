@@ -9,8 +9,11 @@ trap
 
 $ErrorActionPreference = 'Stop'
 
+Get-Command -Noun ('Base64','Base64String','Reflection')
+
 try
 {
+
 	$progressParams = @{
 		Activity = "Benchmark timing"
 		Status = "In progress"
@@ -19,8 +22,6 @@ try
 	}
  
 	Write-Progress @progressParams
-
-	Get-Command -Noun ('Array','Base64','Base64String','Reflection')
 
 	$bytes = new-object byte[] -ArgumentList @(,200554320)
 
@@ -37,8 +38,7 @@ try
 	$progressParams.CurrentOperation = 'ConvertFrom-Base64String'
 	Write-Progress @progressParams
 
-	$bytes = $base64 | ConvertFrom-Base64String
-	$bytes = $null
+	$null = $base64 | ConvertFrom-Base64String
 
 	$T1 = Get-Date
 
@@ -46,8 +46,7 @@ try
 	$progressParams.CurrentOperation = '[System.Convert]::FromBase64String'
 	Write-Progress @progressParams
 
-	$bytes = [System.Convert]::FromBase64String($base64)
-	$bytes = $null
+	$null = [System.Convert]::FromBase64String($base64)
 
 	$T2 = Get-Date
 
@@ -55,8 +54,7 @@ try
 	$progressParams.CurrentOperation = 'Invoke-Reflection'
 	Write-Progress @progressParams
 
-	$bytes = Invoke-Reflection -Method FromBase64String -Type ([System.Convert]) -ArgumentList @(,$base64)
-	$bytes = $null
+	$null = Invoke-Reflection -Method FromBase64String -Type ([System.Convert]) -ArgumentList @(,$base64)
 
 	$T3 = Get-Date
 
@@ -66,17 +64,15 @@ try
 
 	$getMethod=([System.Convert]).GetType().GetMethod('GetMethod',[Type[]](([string],([Type[]]))))
 	$fromBase64String=$getMethod.Invoke(([System.Convert]),[object[]]('FromBase64String', [Type[]](,([string]))))
-	$bytes = $fromBase64String.Invoke($Null,[object[]](,$base64))
-	$bytes = $null
+	$null = $fromBase64String.Invoke($Null,[object[]](,$base64))
 
 	$T4 = Get-Date
 
 	$progressParams.PercentComplete = 100
-	$progressParams.CurrentOperation = 'ConvertFrom-Base64 | Join-Array'
+	$progressParams.CurrentOperation = 'ConvertFrom-Base64'
 	Write-Progress @progressParams
 
-	$bytes = $base64 | ConvertFrom-Base64 | Join-Array -Type ([byte])
-	$bytes = $null
+	$null = $base64 | ConvertFrom-Base64
 
 	$T5 = Get-Date
 }
@@ -103,7 +99,7 @@ finally
 		Duration = [int]($T4-$T3).TotalMilliseconds
 	},
 	[pscustomobject]@{
-		TestCase = 'ConvertFrom-Base64 | Join-Array'
+		TestCase = 'ConvertFrom-Base64'
 		Duration = [int]($T5-$T4).TotalMilliseconds
 	}
 ) | Format-Table

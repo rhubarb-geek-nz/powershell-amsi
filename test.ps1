@@ -22,3 +22,39 @@ $ErrorActionPreference = 'Stop'
 			FileVersion=$info.FileVersion
 		}
 	} | Format-Table -Property Path,FileVersion,SignerCertificate,StatusMessage
+
+$Name = 'Invoke'+'-'+'Mimi'+'katz'
+
+$Found = $True
+
+try
+{
+	Get-Command -Name $Name
+}
+catch
+{
+	$Found = $False
+}
+
+if ($Found)
+{
+	throw "$Name was found as a command"
+}
+
+$ScriptContainedMaliciousContent = $False
+$FullyQualifiedErrorId = $Null
+
+try
+{
+	Invoke-Expression -Command $Name
+}
+catch
+{
+	$FullyQualifiedErrorId = $PSItem.FullyQualifiedErrorId
+	$ScriptContainedMaliciousContent = ($FullyQualifiedErrorId -Split ',')[0] -Eq 'ScriptContainedMaliciousContent'
+}
+
+[pscustomobject]@{
+	ScriptContainedMaliciousContent = $ScriptContainedMaliciousContent
+	FullyQualifiedErrorId = $FullyQualifiedErrorId
+}
