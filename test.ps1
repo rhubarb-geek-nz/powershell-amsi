@@ -1,6 +1,6 @@
-# Copyright (c) 2023 Roger Brown.
+#!/usr/bin/env pwsh
+# Copyright (c) 2024 Roger Brown.
 # Licensed under the MIT License.
-$env:__PSDumpAMSILogContent='1'
 
 trap
 {
@@ -60,4 +60,4 @@ catch
 	Name = $Name
 	ScriptContainedMaliciousContent = $ScriptContainedMaliciousContent
 	FullyQualifiedErrorId = $FullyQualifiedErrorId
-}
+} | Format-Table
