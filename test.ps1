@@ -57,6 +57,7 @@ catch
 }
 
 [pscustomobject]@{
+	Name = $Name
 	ScriptContainedMaliciousContent = $ScriptContainedMaliciousContent
 	FullyQualifiedErrorId = $FullyQualifiedErrorId
 }
