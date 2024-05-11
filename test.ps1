@@ -25,13 +25,13 @@ $PSVersionTable
 		}
 	} | Format-Table -Property Path,FileVersion,SignerCertificate,StatusMessage
 
-$Name = 'Invoke'+'-'+'Mimi'+'katz'
+$Command = 'Invoke'+'-'+'Mimi'+'katz'
 
 $Found = $True
 
 try
 {
-	Get-Command -Name $Name
+	Get-Command -Name $Command
 }
 catch
 {
@@ -40,7 +40,7 @@ catch
 
 if ($Found)
 {
-	throw "$Name was found as a command"
+	throw "$Command was found as a command"
 }
 
 $ScriptContainedMaliciousContent = $False
@@ -48,7 +48,7 @@ $FullyQualifiedErrorId = $Null
 
 try
 {
-	Invoke-Expression -Command $Name
+	Invoke-Expression -Command $Command
 }
 catch
 {
@@ -57,7 +57,7 @@ catch
 }
 
 [pscustomobject]@{
-	Name = $Name
+	Command = $Command
 	ScriptContainedMaliciousContent = $ScriptContainedMaliciousContent
 	FullyQualifiedErrorId = $FullyQualifiedErrorId
 } | Format-Table
