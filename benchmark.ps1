@@ -9,6 +9,8 @@ trap
 
 $ErrorActionPreference = 'Stop'
 
+$PSVersionTable | Format-Table
+
 Get-Command -Noun ('Base64','Base64String','Reflection')
 
 try
@@ -103,5 +105,3 @@ finally
 		Duration = [int]($T5-$T4).TotalMilliseconds
 	}
 ) | Format-Table
-
-$PSVersionTable

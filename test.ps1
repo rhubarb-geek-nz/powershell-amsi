@@ -9,6 +9,8 @@ trap
 
 $ErrorActionPreference = 'Stop'
 
+$PSVersionTable
+
 [System.Diagnostics.Process]::GetCurrentProcess().Modules | ForEach-Object {
 		if ($_.ModuleName.EndsWith('.EXE',[System.StringComparison]::CurrentCultureIgnoreCase) -or $_.ModuleName -eq 'AMSI.DLL') {
 			Get-AuthenticodeSignature -FilePath $_.FileName
