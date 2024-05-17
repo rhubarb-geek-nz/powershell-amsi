@@ -10,27 +10,6 @@ Run the script from a new pwsh.exe to see the full logging.
 
 ```
 D:\github\powershell-amsi>pwsh test.ps1
-
-=== Amsi notification report content ===
-<RhubarbGeekNz.PowerShellAmsi.Librarian>.GetModuleHandleW(<amsi>)
-=== Amsi notification report success: True ===
-
-=== Amsi notification report content ===
-<RhubarbGeekNz.PowerShellAmsi.Librarian>.GetModuleFileName(<140723967754240>)
-=== Amsi notification report success: True ===
-
-=== Amsi notification report content ===
-<RhubarbGeekNz.PowerShellAmsi.Librarian>.GetModuleFileName(<0>)
-=== Amsi notification report success: True ===
-
-=== Amsi notification report content ===
-<System.Diagnostics.FileVersionInfo>.GetVersionInfo(<C:\Program Files\PowerShell\7\pwsh.exe>)
-=== Amsi notification report success: True ===
-
-
-=== Amsi notification report content ===
-<System.Diagnostics.FileVersionInfo>.GetVersionInfo(<C:\WINDOWS\SYSTEM32\amsi.dll>)
-=== Amsi notification report success: True ===
 Path                                   FileVersion                         SignerCertificate                        StatusMessage
 ----                                   -----------                         -----------------                        -------------
 C:\Program Files\PowerShell\7\pwsh.exe 7.4.2.500                           F9A7CF9FBE13BAC767F4781061332DA6E8B4E0EE Signature verified.

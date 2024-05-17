@@ -2,14 +2,16 @@
 # Copyright (c) 2024 Roger Brown.
 # Licensed under the MIT License.
 
+Param(
+	[string]$Command=$null
+)
+
 trap
 {
 	throw $PSItem
 }
 
 $ErrorActionPreference = 'Stop'
-
-$PSVersionTable
 
 [System.Diagnostics.Process]::GetCurrentProcess().Modules | ForEach-Object {
 		if ($_.ModuleName.EndsWith('.EXE',[System.StringComparison]::CurrentCultureIgnoreCase) -or $_.ModuleName -eq 'AMSI.DLL') {
@@ -25,39 +27,40 @@ $PSVersionTable
 		}
 	} | Format-Table -Property Path,FileVersion,SignerCertificate,StatusMessage
 
-$Command = 'Invoke'+'-'+'Mimi'+'katz'
-
-$Found = $True
-
-try
+if ($Command)
 {
-	Get-Command -Name $Command
-}
-catch
-{
-	$Found = $False
-}
+	$Found = $True
 
-if ($Found)
-{
-	throw "$Command was found as a command"
-}
+	try
+	{
+		Get-Command -Name $Command
+	}
+	catch
+	{
+		$Found = $False
+	}
 
-$ScriptContainedMaliciousContent = $False
-$FullyQualifiedErrorId = $Null
+	if ($Found)
+	{
+		throw "$Command was found as a command"
+	}
 
-try
-{
-	Invoke-Expression -Command $Command
-}
-catch
-{
-	$FullyQualifiedErrorId = $PSItem.FullyQualifiedErrorId
-	$ScriptContainedMaliciousContent = ($FullyQualifiedErrorId -Split ',')[0] -Eq 'ScriptContainedMaliciousContent'
-}
+	$ScriptContainedMaliciousContent = $False
+	$FullyQualifiedErrorId = $Null
 
-[pscustomobject]@{
-	Command = $Command
-	ScriptContainedMaliciousContent = $ScriptContainedMaliciousContent
-	FullyQualifiedErrorId = $FullyQualifiedErrorId
-} | Format-Table
+	try
+	{
+		Invoke-Expression -Command $Command
+	}
+	catch
+	{
+		$FullyQualifiedErrorId = $PSItem.FullyQualifiedErrorId
+		$ScriptContainedMaliciousContent = ($FullyQualifiedErrorId -Split ',')[0] -Eq 'ScriptContainedMaliciousContent'
+	}
+
+	[pscustomobject]@{
+		Command = $Command
+		ScriptContainedMaliciousContent = $ScriptContainedMaliciousContent
+		FullyQualifiedErrorId = $FullyQualifiedErrorId
+	} | Format-Table
+}
