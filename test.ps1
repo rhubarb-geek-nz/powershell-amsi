@@ -6,6 +6,8 @@ Param(
 	[string]$Command=$null
 )
 
+$env:__PSDumpAMSILogContent='1'
+
 trap
 {
 	throw $PSItem
